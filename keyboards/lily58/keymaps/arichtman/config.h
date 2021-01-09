@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define OLED_SCROLL_TIMEOUT 1000
 #define OLED_DISABLE_TIMEOUT
 #define OLED_CUSTOM_TIMEOUT 10000
-#define OLED_FONT_H "lib/glcdfont.c"
 
 #define USE_SERIAL_PD2
 

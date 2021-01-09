@@ -12,7 +12,6 @@ void dynMacro(qk_tap_dance_state_t *state, void *user_data);
 
 extern keymap_config_t keymap_config;
 
-extern uint8_t is_master;
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
@@ -52,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|   [   |    |   ]   |------+------+------+------+------+------|
  * |(Shift|   Z  |   X  |   C  |   V  |   B  |-------|    |-------|   K  |   M  |   ,  |   .  |   /  |)Shift|
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   | Lead | Alt  | Ctl  | /Space  /       \Enter \  | LGui | `Esc | ATab |
+ *                   | Lead | LGui | Ctl  | /Space  /       \Enter \  | Alt  | `Esc | ATab |
  *                   |      |      |      |/ Lower /         \ Raise\ |      |      |      |
  *                   `-------------------''-------'           '------''--------------------'
  */
@@ -62,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   MT_TAB,   KC_Q,   KC_W,    KC_F,    KC_P,    KC_G,                     KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,   KC_BSLASH, \
   KC_BSPC,  KC_A,   KC_R,    KC_S,    KC_T,    KC_D,                     KC_H,    KC_N,    KC_E,    KC_I,    KC_O,      KC_QUOT, \
   KC_LSPO,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B, KC_LBRC,  KC_RBRC,  KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,   KC_RSPC, \
-                             KC_LEAD, KC_LALT, KC_LCTL, SP_LW,   EN_RS,  KC_LGUI, KC_GESC, ALT_TAB \
+                             KC_LEAD, KC_LGUI, KC_LCTL, SP_LW,   EN_RS,  KC_LALT, KC_GESC, ALT_TAB \
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -126,7 +125,7 @@ void oled_task_user(void) {
 }
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_master)
+  if ( ! is_keyboard_master() )
     return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
   return rotation;
 }
@@ -148,7 +147,7 @@ void matrix_scan_user(void) {
   }
 	LEADER_DICTIONARY() {
     leading = false;
-		
+
     SEQ_TWO_KEYS(KC_D, KC_R) {
 			ctrl_win(KC_RGHT);
     }else
